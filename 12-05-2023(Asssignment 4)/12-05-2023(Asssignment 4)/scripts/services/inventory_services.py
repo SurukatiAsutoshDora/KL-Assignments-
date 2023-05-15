@@ -84,7 +84,7 @@ def sending_item(email: Email):
         return ({"Error": str(e)})
 
 
-@item_router.get("/total")
+@item_router.get(EndPoints.fetching_total)
 def find_total():
     try:
         item_object = Item_handler()

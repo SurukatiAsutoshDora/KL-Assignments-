@@ -11,21 +11,3 @@ try:
     collection = mydb[db_constant_object.collection_name]
 except Exception as e:
     logging.error({"Error:", "while connecting to MongoDB"})
-# /**
-#  * specifications: The fields to
-#  *   include or exclude.
-#  */
-# {
-#   _id:0,
-#   mul:
-#     {
-#       $multiply:["$item_price","$item_volume"]
-# 		}
-#   }
-
-# {
-#   _id: null,
-#   Total_Price: {
-#     $sum: "$mul"
-#   }
-# }
