@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from scripts.services.inventory_services import item_router
 import logging
+from scripts.logging.logs import getLogger
 
+getLogger()
 
 app = FastAPI()
 item_data = {}
