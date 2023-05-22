@@ -35,7 +35,7 @@ class DatabaseConstants:
             }
 ]
     except Exception as e:
-        logging.error({"error:": "error"})
+        logger.error({"error:": "error"})
 
 
 db_constant_object = DatabaseConstants()

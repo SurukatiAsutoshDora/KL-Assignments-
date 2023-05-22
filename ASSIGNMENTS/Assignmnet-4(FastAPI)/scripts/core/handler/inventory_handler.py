@@ -1,8 +1,6 @@
 from scripts.db.mongo import item_object
 from scripts.logging.logs import logger
 from scripts.schemas.inventory_schemas import Item
-from scripts.constants.db_constants import db_constant_object
-from scripts.core.handler.email_handler import Email_handler
 
 
 class item_handler:
@@ -31,6 +29,7 @@ class item_handler:
         try:
             if item_object.find_by_id({"id": item_id}) == []:
                 logger.warning({"Warning": "item does not exist"})
+                return {"Warning": "item does not exist"}
             return item_object.update_item(item_id, item)
         except Exception as e:
             logger.error({"error": str(e)})
@@ -40,6 +39,7 @@ class item_handler:
         try:
             if item_object.find_by_id({"id": item_id}) == []:
                 logger.warning({"Warning": "item does not exist"})
+                return {"Warning": "item does not exist"}
             return item_object.delete_item(item_id)
         except Exception as e:
             logger.error({"error": str(e)})
@@ -48,8 +48,10 @@ class item_handler:
     def find_total(self):
         try:
             total = item_object.get_total()
-            if total==0:
-                logger.warning({"Warning:":"There are no items in the database"})
+            if total == 0:
+                logger.warning(
+                    {"Warning:": "There are no items in the database"})
+                return {"Warning:": "There are no items in the database"}
             return (list(total))[0]['total']
         except Exception as e:
             logger.error({"error": str(e)})

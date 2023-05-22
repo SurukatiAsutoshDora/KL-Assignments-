@@ -7,6 +7,7 @@ import pandas as pd
 from scripts.logging.logs import logger
 from scripts.constants.email_constants import email_object
 from scripts.db.mongo import Item_handler
+from json2html import *
 
 
 class Email_handler:
@@ -25,10 +26,38 @@ class Email_handler:
         inventory_object = Item_handler()
         result = inventory_object.find_total()
         get_list = inventory_object.fetch()
-        df = pd.DataFrame(get_list)
-        table = tabulate(df, headers='keys', tablefmt='table')
+        html_table = json2html.convert(json=get_list)
+
+        css_styles = f'''
+        <html>
+        <head>
+        <style>
+        table {{
+            width: 100%;
+            border-collapse: collapse;
+        }}
+
+        th, td {{
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }}
+
+        th {{
+            background-color: #f2f2f2;
+        }}
+        </style>
+        </head>
+        <body>
+        {html_table}
+        </body>
+        </html>
+        '''
+
+        html_table_with_styles = f'{css_styles}'
         body = str(result)
-        message.attach(MIMEText(("THESE ARE THE ITEMS IN YOUR INVENTORY :\n" +table + "\n Total amount : " + body), "plain"))
+        message.attach(MIMEText(("THESE ARE THE ITEMS IN YOUR INVENTORY :\n" +
+                       html_table_with_styles + "\n Total amount : " + body), "html"))
         try:
 
             server = smtplib.SMTP("smtp.gmail.com", 587)
